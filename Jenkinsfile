@@ -1,25 +1,20 @@
-#!/usr/bin/env groovy
-
 pipeline {
-
-    agent {
-        docker {
-            image 'node'
-            args '-u root'
-        }
+    agent any
+    
+    triggers {
+        pollSCM('')  // Отключает polling, полагается только на webhook
+        // или
+        githubPush()
     }
-
+    
+    options {
+        githubProjectProperty(projectUrlStr: 'https://github.com/your-user/your-repo')
+    }
+    
     stages {
         stage('Build') {
             steps {
                 echo 'Building...'
-                sh 'npm install'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Testing...'
-                sh 'npm test'
             }
         }
     }
