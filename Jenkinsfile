@@ -4,21 +4,15 @@ pipeline {
         githubPush()
     }
     options {
-        skipDefaultCheckout(true)
+        skipDefaultCheckout(false)  // Всегда делать checkout
     }
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'master', 
-                    url: 'https://github.com/FitVend/hello_hapi.git'
-                echo "Changes detected - building..."
-            }
-        }
         stage('Build') {
             steps {
-                echo 'Building...'
+                echo "Build triggered by GitHub push"
                 // ваши шаги сборки
             }
         }
     }
 }
+
