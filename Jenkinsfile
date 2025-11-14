@@ -8,7 +8,7 @@ pipeline {
     }
     
     options {
-        githubProjectProperty(projectUrlStr: 'https://github.com/your-user/your-repo')
+        githubProjectProperty(projectUrlStr: 'https://github.com/FitVend/hello_hapi/')
     }
     
     stages {
@@ -19,3 +19,4 @@ pipeline {
         }
     }
 }
+
