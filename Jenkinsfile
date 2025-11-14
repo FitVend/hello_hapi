@@ -1,16 +1,26 @@
+#!/usr/bin/env groovy
+
 pipeline {
-    agent any
-    triggers {
-        githubPush()
+
+    agent {
+        docker {
+            image 'node'
+            args '-u root'
+        }
     }
+
     stages {
-        stage('Force Build') {
+        stage('Build') {
             steps {
-                echo "GitHub push detected - building regardless of changes"
-                // ваши шаги сборки
+                echo 'Building...'
+                sh 'npm install'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing...'
+                sh 'npm test'
             }
         }
     }
 }
-
-
