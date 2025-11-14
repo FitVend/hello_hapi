@@ -3,16 +3,14 @@ pipeline {
     triggers {
         githubPush()
     }
-    options {
-        skipDefaultCheckout(false)  // Всегда делать checkout
-    }
     stages {
-        stage('Build') {
+        stage('Force Build') {
             steps {
-                echo "Build triggered by GitHub push"
+                echo "GitHub push detected - building regardless of changes"
                 // ваши шаги сборки
             }
         }
     }
 }
+
 
