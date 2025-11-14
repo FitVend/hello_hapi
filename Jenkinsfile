@@ -1,22 +1,26 @@
+#!/usr/bin/env groovy
+
 pipeline {
-    agent any
-    
-    triggers {
-        pollSCM('')  // Отключает polling, полагается только на webhook
-        // или
-        githubPush()
+
+    agent {
+        docker {
+            image 'node'
+            args '-u root'
+        }
     }
-    
-    options {
-        githubProjectProperty(projectUrlStr: 'https://github.com/FitVend/hello_hapi/')
-    }
-    
+
     stages {
         stage('Build') {
             steps {
                 echo 'Building...'
+                sh 'npm install'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing...'
+                sh 'npm test'
             }
         }
     }
 }
-
