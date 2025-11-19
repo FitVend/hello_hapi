@@ -1,25 +1,29 @@
-#!/usr/bin/env groovy
-
 pipeline {
-
-    agent {
-        docker {
-            image 'node'
-            args '-u root'
-        }
-    }
+    agent any
 
     stages {
+        stage('Checkout') {
+            steps {
+                // Checkout code from version control
+                checkout scm
+            }
+        }
         stage('Build') {
             steps {
-                echo 'Building...'
-                sh 'npm install'
+                // Build your project
+                sh 'mvn clean install'
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing...'
-                sh 'npm test'
+                // Run tests
+                sh 'mvn test'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                // Deploy the application
+                sh './deploy.sh'
             }
         }
     }
