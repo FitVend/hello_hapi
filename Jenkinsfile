@@ -1,29 +1,22 @@
 pipeline {
     agent any
 
+    tools {
+        sonarScanner 'SonarScanner' // Name from Global Tool Config
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from version control
-                checkout scm
+                git 'https://github.com/your/repo.git'
             }
         }
-        stage('Build') {
+
+        stage('SonarQube Analysis') {
             steps {
-                // Build your project
-                sh 'mvn clean install'
-            }
-        }
-        stage('Test') {
-            steps {
-                // Run tests
-                sh 'mvn test'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                // Deploy the application
-                sh './deploy.sh'
+                withSonarQubeEnv('SonarQube') {
+                    sh 'sonar-scanner'
+                }
             }
         }
     }
