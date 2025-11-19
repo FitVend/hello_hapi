@@ -1,23 +1,11 @@
-pipeline {
-    agent any
-
-    tools {
-        sonarScanner 'SonarScanner' // Name from Global Tool Config
+node {
+  stage('SCM') {
+    checkout scm
+  }
+  stage('SonarQube Analysis') {
+    def scannerHome = tool 'SonarQube';
+    withSonarQubeEnv() {
+      sh "${scannerHome}/bin/sonar-scanner"
     }
-
-    stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/your/repo.git'
-            }
-        }
-
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh 'sonar-scanner'
-                }
-            }
-        }
-    }
+  }
 }
